@@ -310,33 +310,6 @@ static STBSP__ASAN stbsp__uint32 stbsp__strlen_limited(char const *s, stbsp__uin
 {
    char const * sn = s;
 
-   // get up to 4-byte alignment
-   for (;;) {
-      if (((stbsp__uintptr)sn & 3) == 0)
-         break;
-
-      if (!limit || *sn == 0)
-         return (stbsp__uint32)(sn - s);
-
-      ++sn;
-      --limit;
-   }
-
-   // scan over 4 bytes at a time to find terminating 0
-   // this will intentionally scan up to 3 bytes past the end of buffers,
-   // but becase it works 4B aligned, it will never cross page boundaries
-   // (hence the STBSP__ASAN markup; the over-read here is intentional
-   // and harmless)
-   while (limit >= 4) {
-      stbsp__uint32 v = *(stbsp__uint32 *)sn;
-      // bit hack to find if there's a 0 byte in there
-      if ((v - 0x01010101) & (~v) & 0x80808080UL)
-         break;
-
-      sn += 4;
-      limit -= 4;
-   }
-
    // handle the last few characters to find actual size
    while (limit && *sn) {
       ++sn;
