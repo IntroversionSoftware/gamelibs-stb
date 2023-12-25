@@ -375,6 +375,7 @@ static void stbiw__writefv(stbi__write_context *s, const char *fmt, va_list v)
    }
 }
 
+#ifndef STBI_NO_TGA
 static void stbiw__writef(stbi__write_context *s, const char *fmt, ...)
 {
    va_list v;
@@ -382,6 +383,7 @@ static void stbiw__writef(stbi__write_context *s, const char *fmt, ...)
    stbiw__writefv(s, fmt, v);
    va_end(v);
 }
+#endif
 
 static void stbiw__write_flush(stbi__write_context *s)
 {
@@ -391,10 +393,12 @@ static void stbiw__write_flush(stbi__write_context *s)
    }
 }
 
+#ifndef STBI_NO_JPEG
 static void stbiw__putc(stbi__write_context *s, unsigned char c)
 {
    s->func(s->context, &c, 1);
 }
+#endif
 
 static void stbiw__write1(stbi__write_context *s, unsigned char a)
 {
@@ -529,6 +533,7 @@ STBIWDEF int stbi_write_bmp(char const *filename, int x, int y, int comp, const 
 }
 #endif //!STBI_WRITE_NO_STDIO
 
+#ifndef STBI_NO_TGA
 static int stbi_write_tga_core(stbi__write_context *s, int x, int y, int comp, void *data)
 {
    int has_alpha = (comp == 2 || comp == 4);
@@ -627,7 +632,9 @@ STBIWDEF int stbi_write_tga(char const *filename, int x, int y, int comp, const 
       return 0;
 }
 #endif
+#endif
 
+#ifndef STBI_NO_HDR
 // *************************************************************************************************
 // Radiance RGBE HDR writer
 // by Baldur Karlsson
@@ -802,6 +809,7 @@ STBIWDEF int stbi_write_hdr(char const *filename, int x, int y, int comp, const 
       return 0;
 }
 #endif // STBI_WRITE_NO_STDIO
+#endif // STBI_NO_HDR
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1238,7 +1246,7 @@ STBIWDEF int stbi_write_png_to_func(stbi_write_func *func, void *context, int x,
    return 1;
 }
 
-
+#ifndef STBI_NO_JPEG
 /* ***************************************************************************
  *
  * JPEG writer
@@ -1624,6 +1632,7 @@ STBIWDEF int stbi_write_jpg(char const *filename, int x, int y, int comp, const 
       return 0;
 }
 #endif
+#endif // STBI_NO_JPEG
 
 #endif // STB_IMAGE_WRITE_IMPLEMENTATION
 
