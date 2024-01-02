@@ -417,7 +417,7 @@ typedef uint64_t stbir_uint64;
   #endif
 #endif
 
-#if defined( _M_ARM64 ) || defined( __aarch64__ ) || defined( __arm64__ ) || ((__ARM_NEON_FP & 4) != 0) || defined(__ARM_NEON__)
+#if defined( _M_ARM64 ) || defined( __aarch64__ ) || defined( __arm64__ ) || (defined( __ARM_NEON_FP ) && (__ARM_NEON_FP & 4) != 0) || defined(__ARM_NEON__)
 #ifndef STBIR_NEON
 #define STBIR_NEON
 #endif
