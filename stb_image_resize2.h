@@ -1200,7 +1200,7 @@ static stbir__inline stbir_uint8 stbir__linear_to_srgb_uchar(float in)
   #endif
 #endif
 
-#if defined( _M_ARM64 ) || defined( __aarch64__ ) || defined( __arm64__ ) || ((__ARM_NEON_FP & 4) != 0) || defined(__ARM_NEON__)
+#if defined( _M_ARM64 ) || defined( __aarch64__ ) || defined( __arm64__ ) || (defined(__ARM_NEON__) && (__ARM_NEON_FP & 4) != 0)
 #ifndef STBIR_NEON
 #define STBIR_NEON
 #endif
